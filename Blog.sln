@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.DAL", "Blog.DAL\Blog.DAL.csproj", "{8F24BB9C-B313-407E-A704-3E11E7777516}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.BLL", "Blog.BLL\Blog.BLL\Blog.BLL.csproj", "{AB120EBE-3CF0-4B7A-AE9F-1783FFDA8E5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{8F24BB9C-B313-407E-A704-3E11E7777516}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F24BB9C-B313-407E-A704-3E11E7777516}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F24BB9C-B313-407E-A704-3E11E7777516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB120EBE-3CF0-4B7A-AE9F-1783FFDA8E5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB120EBE-3CF0-4B7A-AE9F-1783FFDA8E5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB120EBE-3CF0-4B7A-AE9F-1783FFDA8E5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB120EBE-3CF0-4B7A-AE9F-1783FFDA8E5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
