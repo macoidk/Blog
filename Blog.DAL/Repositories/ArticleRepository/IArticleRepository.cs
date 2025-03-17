@@ -10,5 +10,6 @@ namespace BlogSystem.DAL.Repositories
         Task<IEnumerable<Article>> GetByUserIdAsync(int userId);
         Task<Article> GetByIdWithDetailsAsync(int id);
         Task<IEnumerable<Article>> GetAllWithDetailsAsync();
+        Task<Article> GetByIdLazyAsync(int id);
     }
 }

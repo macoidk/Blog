@@ -16,5 +16,6 @@ namespace BlogSystem.BLL.Interfaces
         Task AddTagAsync(int articleId, int tagId);
         Task AddTagAsync(int articleId, string tagName);
         Task RemoveTagAsync(int articleId, int tagId);
+        Task<ArticleDto> GetByIdLazyAsync(int id);
     }
 }

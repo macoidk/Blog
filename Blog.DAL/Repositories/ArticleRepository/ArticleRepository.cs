@@ -49,5 +49,12 @@ namespace BlogSystem.DAL.Repositories
                 .ThenInclude(at => at.Tag)
                 .ToListAsync();
         }
+        
+        public async Task<Article> GetByIdLazyAsync(int id)
+        {
+            return await Context.Articles
+                .FirstOrDefaultAsync(a => a.Id == id);
+        }
+        
     }
 }

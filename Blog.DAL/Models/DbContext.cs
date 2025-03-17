@@ -16,6 +16,11 @@ namespace BlogSystem.DAL.Context
         public DbSet<ArticleTag> ArticleTags { get; set; }
         public DbSet<Comment> Comments { get; set; }
         
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ArticleTag>()

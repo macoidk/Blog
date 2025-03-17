@@ -94,11 +94,10 @@ namespace BlogSystem.BLL.Services
             var article = await _unitOfWork.Articles.GetByIdWithDetailsAsync(articleId);
             if (article == null) throw new EntityNotFoundException($"Article {articleId} not found");
 
-            // Перевіряємо, чи тег уже доданий
             if (!article.ArticleTags.Any(at => at.TagId == tagId))
             {
                 article.ArticleTags.Add(new ArticleTag { ArticleId = articleId, TagId = tagId });
-                _unitOfWork.Articles.Update(article); // Оновлюємо статтю з новим тегом
+                _unitOfWork.Articles.Update(article); 
                 await _unitOfWork.SaveChangesAsync();
             }
         }
@@ -122,5 +121,18 @@ namespace BlogSystem.BLL.Services
                 await _unitOfWork.SaveChangesAsync();
             }
         }
+        
+        public async Task<ArticleDto> GetByIdLazyAsync(int id)
+        {
+            var article = await _unitOfWork.Articles.GetByIdLazyAsync(id);
+            if (article == null) throw new EntityNotFoundException($"Article {id} not found");
+
+            var dto = article.ToDto();
+            dto.AuthorName = article.User.Username;           
+            dto.CommentCount = article.Comments.Count;      
+            dto.Tags = article.ArticleTags.Select(at => at.Tag.ToDto()).ToList(); 
+            return dto;
+        }
+        
     }
 }
