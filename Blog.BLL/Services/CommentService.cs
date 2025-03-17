@@ -1,0 +1,85 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BlogSystem.BLL.DTO;
+using BlogSystem.BLL.Exceptions;
+using BlogSystem.BLL.Extensions;
+using BlogSystem.BLL.Interfaces;
+using BlogSystem.DAL.Entities;
+using BlogSystem.DAL.UnitOfWork;
+
+namespace BlogSystem.BLL.Services
+{
+    public class CommentService : ICommentService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CommentService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<CommentDto> GetByIdAsync(int id)
+        {
+            var comment = await _unitOfWork.Comments.GetByIdAsync(id);
+            if (comment == null) throw new EntityNotFoundException($"Comment {id} not found");
+            return comment.ToDto();
+        }
+
+        public async Task<IEnumerable<CommentDto>> GetByArticleIdAsync(int articleId)
+        {
+            var comments = await _unitOfWork.Comments.GetByArticleIdAsync(articleId);
+            return comments.Select(c => c.ToDto());
+        }
+
+        public async Task<IEnumerable<CommentDto>> GetRootCommentsByArticleIdAsync(int articleId)
+        {
+            var comments = await _unitOfWork.Comments.GetRootCommentsByArticleIdAsync(articleId);
+            return comments.Select(c => c.ToDto());
+        }
+
+        public async Task<CommentDto> GetWithRepliesAsync(int id)
+        {
+            var comment = await _unitOfWork.Comments.GetWithRepliesAsync(id);
+            if (comment == null) throw new EntityNotFoundException($"Comment {id} not found");
+            return comment.ToDto();
+        }
+
+        public async Task<IEnumerable<CommentDto>> GetByUserIdAsync(int userId)
+        {
+            var comments = await _unitOfWork.Comments.GetByUserIdAsync(userId);
+            return comments.Select(c => c.ToDto());
+        }
+
+        public async Task<CommentDto> CreateAsync(CommentDto commentDto)
+        {
+            var comment = commentDto.ToEntity();
+            comment.CreationDate = DateTime.UtcNow;
+
+            await _unitOfWork.Comments.AddAsync(comment);
+            await _unitOfWork.SaveChangesAsync();
+            return comment.ToDto();
+        }
+
+        public async Task UpdateAsync(CommentDto commentDto)
+        {
+            var comment = await _unitOfWork.Comments.GetByIdAsync(commentDto.Id);
+            if (comment == null) throw new EntityNotFoundException($"Comment {commentDto.Id} not found");
+
+            comment.Content = commentDto.Content;
+            comment.UpdateDate = DateTime.UtcNow;
+
+            _unitOfWork.Comments.Update(comment);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var comment = await _unitOfWork.Comments.GetByIdAsync(id);
+            if (comment == null) throw new EntityNotFoundException($"Comment {id} not found");
+
+            _unitOfWork.Comments.Delete(comment);
+            await _unitOfWork.SaveChangesAsync();
+        }
+    }
+}
