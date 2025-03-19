@@ -35,7 +35,7 @@ namespace BlogSystem.BLL.Services
         public async Task<IEnumerable<CommentDto>> GetRootCommentsByArticleIdAsync(int articleId)
         {
             var comments = await _unitOfWork.Comments.GetRootCommentsByArticleIdAsync(articleId);
-            return comments.Select(c => c.ToDto());
+            return comments.Select(c => c.ToDto()).ToList();
         }
 
         public async Task<CommentDto> GetWithRepliesAsync(int id)
@@ -53,12 +53,18 @@ namespace BlogSystem.BLL.Services
 
         public async Task<CommentDto> CreateAsync(CommentDto commentDto)
         {
+            if (string.IsNullOrWhiteSpace(commentDto.Content))
+                throw new ArgumentException("Коментар не може бути порожнім.");
+
             var comment = commentDto.ToEntity();
-            comment.CreationDate = DateTime.UtcNow;
+            comment.CreationDate = DateTime.UtcNow; // Завжди задаємо дату створення
+            comment.UpdateDate = null; // Початково null, оновлюється при редагуванні
 
             await _unitOfWork.Comments.AddAsync(comment);
             await _unitOfWork.SaveChangesAsync();
-            return comment.ToDto();
+
+            var createdComment = await _unitOfWork.Comments.GetByIdAsync(comment.Id);
+            return createdComment.ToDto();
         }
 
         public async Task UpdateAsync(CommentDto commentDto)

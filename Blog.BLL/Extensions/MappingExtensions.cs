@@ -100,9 +100,9 @@ namespace BlogSystem.BLL.Extensions
                 CreationDate = entity.CreationDate,
                 UpdateDate = entity.UpdateDate,
                 UserId = entity.UserId,
-                AuthorName = entity.User?.Username,
+                AuthorName = entity.User?.Username ?? "Анонім",
                 CategoryId = entity.CategoryId,
-                CategoryName = entity.Category?.Name,
+                CategoryName = entity.Category?.Name ?? "General",
                 Tags = entity.ArticleTags?.Select(at => at.Tag.ToDto()).ToList() ?? new List<TagDto>(),
                 CommentCount = entity.Comments?.Count ?? 0
             };
@@ -137,7 +137,7 @@ namespace BlogSystem.BLL.Extensions
                 CreationDate = entity.CreationDate,
                 UpdateDate = entity.UpdateDate,
                 UserId = entity.UserId,
-                AuthorName = entity.User?.Username,
+                AuthorName = entity.User?.Username ?? "Анонім",
                 ArticleId = entity.ArticleId,
                 ArticleTitle = entity.Article?.Title,
                 ParentCommentId = entity.ParentCommentId,
