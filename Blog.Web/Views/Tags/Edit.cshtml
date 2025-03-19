@@ -1,0 +1,9 @@
+@model BlogSystem.BLL.DTO.TagDto
+<h2>Редагувати тег</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <label>Назва:</label><input name="Name" value="@Model.Name" /><br />
+    <button type="submit">Зберегти</button>
+    @if (ViewBag.Error != null) { <p style="color:red">@ViewBag.Error</p> }
+</form>
+<a href="/Tags/Index">Назад до списку</a>
