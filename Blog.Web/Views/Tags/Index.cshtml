@@ -1,0 +1,17 @@
+@model IEnumerable<BlogSystem.BLL.DTO.TagDto>
+<h2>Список тегів</h2>
+<table class="table">
+    <tr><th>Назва</th><th></th></tr>
+    @foreach (var tag in Model)
+    {
+        <tr>
+            <td>@tag.Name</td>
+            <td>
+                <a href="/Tags/Details/@tag.Id">Деталі</a> |
+                <a href="/Tags/Edit/@tag.Id">Редагувати</a> |
+                <a href="/Tags/Delete/@tag.Id">Видалити</a>
+            </td>
+        </tr>
+    }
+</table>
+<a href="/Tags/Create">Додати тег</a>

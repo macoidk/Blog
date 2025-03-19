@@ -64,6 +64,12 @@ namespace BlogSystem.DAL.Context
                 .WithMany(c => c.ChildComments)
                 .HasForeignKey(c => c.ParentCommentId)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Технології", Description = "Статті про сучасні технології" },
+                new Category { Id = 2, Name = "Наука", Description = "Наукові дослідження та відкриття" },
+                new Category { Id = 3, Name = "Подорожі", Description = "Розповіді про подорожі світом" }
+            );
         }
     }
 }

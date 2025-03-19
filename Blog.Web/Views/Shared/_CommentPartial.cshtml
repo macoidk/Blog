@@ -1,0 +1,21 @@
+@model BlogSystem.BLL.DTO.CommentDto
+
+<div style="margin-left: @(Model.ParentCommentId.HasValue ? "20px" : "0")">
+    <p>@Model.Content (Автор: @Model.AuthorName)</p>
+    <a href="#" onclick="showReplyForm(@Model.Id)">Відповісти</a>
+    <div id="replyForm_@Model.Id" style="display:none;">
+        <form asp-controller="Comments" asp-action="Create" method="post">
+            <input type="hidden" name="ArticleId" value="@ViewBag.ArticleId" />
+            <input type="hidden" name="ParentCommentId" value="@Model.Id" />
+            <textarea name="Content"></textarea>
+            <button type="submit">Додати відповідь</button>
+        </form>
+    </div>
+    @if (Model.ChildComments != null && Model.ChildComments.Any())
+    {
+        foreach (var child in Model.ChildComments)
+        {
+            @await Html.PartialAsync("_CommentPartial", child)
+        }
+    }
+</div>

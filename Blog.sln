@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.DAL", "Blog.DAL\Blog.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.BLL", "Blog.BLL\Blog.BLL.csproj", "{69C9C8A1-5C34-42FC-93DB-21E5FCDB8AF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Web", "Blog.Web\Blog.Web.csproj", "{800A4C9E-574B-4633-A845-7E0D5217B75D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{69C9C8A1-5C34-42FC-93DB-21E5FCDB8AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69C9C8A1-5C34-42FC-93DB-21E5FCDB8AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69C9C8A1-5C34-42FC-93DB-21E5FCDB8AF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{800A4C9E-574B-4633-A845-7E0D5217B75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{800A4C9E-574B-4633-A845-7E0D5217B75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{800A4C9E-574B-4633-A845-7E0D5217B75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{800A4C9E-574B-4633-A845-7E0D5217B75D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

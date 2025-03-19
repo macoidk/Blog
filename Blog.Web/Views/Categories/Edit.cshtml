@@ -1,0 +1,10 @@
+@model BlogSystem.BLL.DTO.CategoryDto
+<h2>Редагувати рубрику</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <label>Назва:</label><input name="Name" value="@Model.Name" /><br />
+    <label>Опис:</label><textarea name="Description">@Model.Description</textarea><br />
+    <button type="submit">Зберегти</button>
+    @if (ViewBag.Error != null) { <p style="color:red">@ViewBag.Error</p> }
+</form>
+<a href="/Categories/Index">Назад до списку</a>

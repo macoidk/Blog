@@ -1,0 +1,9 @@
+@model BlogSystem.BLL.DTO.CategoryDto
+<h2>Видалити рубрику</h2>
+<p>Ви впевнені, що хочете видалити рубрику "@Model.Name"?</p>
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit">Видалити</button>
+    @if (ViewBag.Error != null) { <p style="color:red">@ViewBag.Error</p> }
+</form>
+<a href="/Categories/Index">Назад до списку</a>

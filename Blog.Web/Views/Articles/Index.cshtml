@@ -1,0 +1,16 @@
+@model IEnumerable<BlogSystem.BLL.DTO.ArticleDto>
+<h2>Список статей</h2>
+<table class="table">
+    <tr><th>Назва</th><th>Автор</th><th>Рубрика</th><th>Коментарі</th><th></th></tr>
+    @foreach (var article in Model)
+    {
+        <tr>
+            <td>@article.Title</td>
+            <td>@article.AuthorName</td>
+            <td>@article.CategoryName</td>
+            <td>@article.CommentCount</td>
+            <td><a href="/Articles/Details/@article.Id">Деталі</a></td>
+        </tr>
+    }
+</table>
+<a href="/Articles/Create">Додати статтю</a>

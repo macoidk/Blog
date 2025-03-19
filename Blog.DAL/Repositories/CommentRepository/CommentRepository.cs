@@ -26,7 +26,12 @@ namespace BlogSystem.DAL.Repositories
             return await Context.Comments
                 .Where(c => c.ArticleId == articleId && c.ParentCommentId == null)
                 .Include(c => c.User)
-                .ToListAsync();
+                .Include(c => c.ChildComments)
+                    .ThenInclude(c => c.User)
+                .Include(c => c.ChildComments)
+                    .ThenInclude(c => c.ChildComments)
+                        .ThenInclude(c => c.User)
+                .ToListAsync() ?? new List<Comment>();
         }
         
         public async Task<Comment> GetWithRepliesAsync(int id)

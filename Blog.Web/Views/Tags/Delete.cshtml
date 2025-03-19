@@ -1,0 +1,9 @@
+@model BlogSystem.BLL.DTO.TagDto
+<h2>Видалити тег</h2>
+<p>Ви впевнені, що хочете видалити тег "@Model.Name"?</p>
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit">Видалити</button>
+    @if (ViewBag.Error != null) { <p style="color:red">@ViewBag.Error</p> }
+</form>
+<a href="/Tags/Index">Назад до списку</a>

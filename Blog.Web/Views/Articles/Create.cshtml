@@ -1,0 +1,18 @@
+@model BlogSystem.BLL.DTO.ArticleDto
+<h2>Створити статтю</h2>
+<form asp-action="Create" method="post">
+    <label>Назва:</label><input name="Title" value="@Model?.Title" /><br />
+    <label>Зміст:</label><textarea name="Content">@Model?.Content</textarea><br />
+    <label>Рубрика:</label>
+    <select name="CategoryId">
+        <option value="0">-- Введіть вручну --</option>
+        @foreach (var category in ViewBag.Categories)
+        {
+            <option value="@category.Id" selected="@(Model?.CategoryId == category.Id ? "selected" : null)">@category.Name</option>
+        }
+    </select>
+    <label>або введіть назву:</label><input name="categoryName" /><br />
+    <label>Теги (через кому):</label><input name="tags" /><br />
+    <button type="submit">Створити</button>
+    @if (ViewBag.Error != null) { <p style="color:red">@ViewBag.Error</p> }
+</form>
