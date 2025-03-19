@@ -1,0 +1,9 @@
+<h2>Реєстрація</h2>
+<form asp-action="Register" method="post">
+    <label>Ім'я користувача:</label><input name="username" /><br />
+    <label>Email:</label><input name="email" type="email" /><br />
+    <label>Пароль:</label><input name="password" type="password" /><br />
+    <button type="submit">Зареєструватися</button>
+    @if (ViewBag.Error != null) { <p style="color:#076a58">@ViewBag.Error</p> }
+</form>
+<a href="/Users/Login">Увійти</a>
