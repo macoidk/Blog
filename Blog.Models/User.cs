@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace BlogSystem.DAL.Entities
+namespace BlogSystem.Models
 {
     public class User
     {
@@ -13,8 +13,8 @@ namespace BlogSystem.DAL.Entities
         public DateTime RegistrationDate { get; set; }
         public UserRole Role { get; set; }
         
-        public virtual ICollection<Article> Articles { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public ICollection<Article> Articles { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
     
     public enum UserRole

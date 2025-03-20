@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace BlogSystem.DAL.Entities
+namespace BlogSystem.Models
 {
     public class Category
     {
@@ -8,6 +8,6 @@ namespace BlogSystem.DAL.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         
-        public virtual ICollection<Article> Articles { get; set; }
+        public ICollection<Article> Articles { get; set; }
     }
 }

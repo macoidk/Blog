@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace BlogSystem.DAL.Entities
+namespace BlogSystem.Models
 {
     public class Article
     {
@@ -12,11 +12,12 @@ namespace BlogSystem.DAL.Entities
         public DateTime? UpdateDate { get; set; }
         
         public int UserId { get; set; }
-        public int CategoryId { get; set; }
+        public User User { get; set; }
         
-        public virtual User User { get; set; }
-        public virtual Category Category { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<ArticleTag> ArticleTags { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+        
+        public ICollection<Comment> Comments { get; set; }
+        public ICollection<ArticleTag> ArticleTags { get; set; }
     }
 }

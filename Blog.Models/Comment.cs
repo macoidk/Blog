@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace BlogSystem.DAL.Entities
+namespace BlogSystem.Models
 {
     public class Comment
     {
@@ -11,12 +11,13 @@ namespace BlogSystem.DAL.Entities
         public DateTime? UpdateDate { get; set; }
         
         public int UserId { get; set; }
-        public int ArticleId { get; set; }
-        public int? ParentCommentId { get; set; }
+        public User User { get; set; }
         
-        public virtual User User { get; set; }
-        public virtual Article Article { get; set; }
-        public virtual Comment ParentComment { get; set; }
-        public virtual ICollection<Comment> ChildComments { get; set; }
+        public int ArticleId { get; set; }
+        public Article Article { get; set; }
+        
+        public int? ParentCommentId { get; set; }
+        public Comment ParentComment { get; set; }
+        public ICollection<Comment> ChildComments { get; set; }
     }
 }
