@@ -13,8 +13,8 @@ namespace BlogSystem.Models
         public DateTime RegistrationDate { get; set; }
         public UserRole Role { get; set; }
         
-        public ICollection<Article> Articles { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
     
     public enum UserRole

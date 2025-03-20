@@ -12,12 +12,12 @@ namespace BlogSystem.Models
         public DateTime? UpdateDate { get; set; }
         
         public int UserId { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
         
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<ArticleTag> ArticleTags { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<ArticleTag> ArticleTags { get; set; }
     }
 }

@@ -11,13 +11,13 @@ namespace BlogSystem.Models
         public DateTime? UpdateDate { get; set; }
         
         public int UserId { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
         
         public int ArticleId { get; set; }
-        public Article Article { get; set; }
+        public virtual Article Article { get; set; }
         
         public int? ParentCommentId { get; set; }
-        public Comment ParentComment { get; set; }
-        public ICollection<Comment> ChildComments { get; set; }
+        public virtual Comment ParentComment { get; set; }
+        public virtual ICollection<Comment> ChildComments { get; set; }
     }
 }

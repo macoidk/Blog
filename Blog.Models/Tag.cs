@@ -7,6 +7,6 @@ namespace BlogSystem.Models
         public int Id { get; set; }
         public string Name { get; set; }
         
-        public ICollection<ArticleTag> ArticleTags { get; set; }
+        public virtual ICollection<ArticleTag> ArticleTags { get; set; }
     }
 }
