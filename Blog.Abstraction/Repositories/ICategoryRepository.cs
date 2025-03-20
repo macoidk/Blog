@@ -1,6 +1,8 @@
-namespace Blog.Abstraction.Repositories;
+using BlogSystem.Models;
 
-public class ICategoryRepository
+namespace BlogSystem.Abstractions
 {
-    
+    public interface ICategoryRepository : IRepository<Category>
+    {
+    }
 }

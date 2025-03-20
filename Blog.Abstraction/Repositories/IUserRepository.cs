@@ -1,6 +1,11 @@
-namespace Blog.Abstraction.Repositories;
+using System.Threading.Tasks;
+using BlogSystem.Models;
 
-public class IUserRepository
+namespace BlogSystem.Abstractions
 {
-    
+    public interface IUserRepository : IRepository<User>
+    {
+        Task<User> GetByUsernameAsync(string username);
+        Task<User> GetByEmailAsync(string email);
+    }
 }

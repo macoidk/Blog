@@ -1,6 +1,17 @@
-namespace Blog.Abstraction.Repositories;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BlogSystem.Models;
 
-public class IArticleRepository
+namespace BlogSystem.Abstractions
 {
-    
+    public interface IArticleRepository : IRepository<Article>
+    {
+        Task<IEnumerable<Article>> GetByCategoryIdAsync(int categoryId);
+        Task<IEnumerable<Article>> GetByUserIdAsync(int userId);
+        Task<Article> GetByIdWithDetailsAsync(int id);
+        
+        Task<Article> GetByIdLazyAsync(int id);
+        
+        Task<IEnumerable<Article>> GetAllWithDetailsAsync();
+    }
 }

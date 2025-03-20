@@ -1,6 +1,12 @@
-namespace Blog.Abstraction.Repositories;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BlogSystem.Models;
 
-public class ITagRepository
+namespace BlogSystem.Abstractions
 {
-    
+    public interface ITagRepository : IRepository<Tag>
+    {
+        Task<IEnumerable<Tag>> GetByArticleIdAsync(int articleId);
+        Task<Tag> GetByNameAsync(string name);
+    }
 }
