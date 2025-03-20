@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BlogSystem.BLL.DTO;
-using BlogSystem.DAL.Entities;
+using BlogSystem.Models;
 
 namespace BlogSystem.BLL.Extensions
 {
