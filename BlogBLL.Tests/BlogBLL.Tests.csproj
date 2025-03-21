@@ -9,9 +9,17 @@
     <ItemGroup>
       <PackageReference Include="AutoFixture" Version="5.0.0-preview0012" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
       <PackageReference Include="Ninject" Version="4.0.0-beta.1" />
       <PackageReference Include="NSubstitute" Version="5.3.0" />
       <PackageReference Include="NUnit" Version="4.3.2" />
+      <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Blog.Abstraction\Blog.Abstraction.csproj" />
+      <ProjectReference Include="..\Blog.BLL\Blog.BLL.csproj" />
+      <ProjectReference Include="..\Blog.Models\Blog.Models.csproj" />
     </ItemGroup>
 
 </Project>
