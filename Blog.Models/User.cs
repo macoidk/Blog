@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace BlogSystem.DAL.Entities
+namespace BlogSystem.Models
 {
     public class User
     {

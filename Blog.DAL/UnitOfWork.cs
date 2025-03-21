@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BlogSystem.DAL.Context;
+using BlogSystem.Abstractions;
 using BlogSystem.DAL.Repositories;
 
 namespace BlogSystem.DAL.UnitOfWork

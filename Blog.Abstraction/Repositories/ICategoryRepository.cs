@@ -1,6 +1,6 @@
-﻿using BlogSystem.DAL.Entities;
+using BlogSystem.Models;
 
-namespace BlogSystem.DAL.Repositories
+namespace BlogSystem.Abstractions
 {
     public interface ICategoryRepository : IRepository<Category>
     {

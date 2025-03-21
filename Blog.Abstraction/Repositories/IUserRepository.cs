@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
-using BlogSystem.DAL.Entities;
+using System.Threading.Tasks;
+using BlogSystem.Models;
 
-namespace BlogSystem.DAL.Repositories
+namespace BlogSystem.Abstractions
 {
     public interface IUserRepository : IRepository<User>
     {
         Task<User> GetByUsernameAsync(string username);
         Task<User> GetByEmailAsync(string email);
-        Task<User> GetByIdWithDetailsAsync(int id);
     }
 }

@@ -1,4 +1,4 @@
-﻿using BlogSystem.DAL.Entities;
+﻿using BlogSystem.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogSystem.DAL.Context

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using BlogSystem.DAL.Context;
-using BlogSystem.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
+using BlogSystem.Models;
+using BlogSystem.Abstractions;
 
 namespace BlogSystem.DAL.Repositories
 {
@@ -10,25 +10,15 @@ namespace BlogSystem.DAL.Repositories
         public UserRepository(BlogDbContext context) : base(context)
         {
         }
-        
+
         public async Task<User> GetByUsernameAsync(string username)
         {
-            return await Context.Users
-                .FirstOrDefaultAsync(u => u.Username == username);
+            return await FindAsync(u => u.Username == username).ContinueWith(t => t.Result.FirstOrDefault());
         }
-        
+
         public async Task<User> GetByEmailAsync(string email)
         {
-            return await Context.Users
-                .FirstOrDefaultAsync(u => u.Email == email);
-        }
-        
-        public async Task<User> GetByIdWithDetailsAsync(int id)
-        {
-            return await Context.Users
-                .Include(u => u.Articles)
-                .Include(u => u.Comments)
-                .FirstOrDefaultAsync(u => u.Id == id);
+            return await FindAsync(u => u.Email == email).ContinueWith(t => t.Result.FirstOrDefault());
         }
     }
 }

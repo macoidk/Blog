@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using BlogSystem.DAL.Entities;
+using BlogSystem.Models;
 
-namespace BlogSystem.DAL.Repositories
+namespace BlogSystem.Abstractions
 {
     public interface ITagRepository : IRepository<Tag>
     {

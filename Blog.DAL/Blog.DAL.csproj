@@ -17,4 +17,9 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Blog.Abstraction\Blog.Abstraction.csproj" />
+        <ProjectReference Include="..\Blog.Models\Blog.Models.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -7,8 +7,8 @@ using BlogSystem.BLL.Exceptions;
 using BlogSystem.BLL.Interfaces;
 using BlogSystem.BLL.Extensions;
 using BlogSystem.BLL.Utils;
-using BlogSystem.DAL.Entities;
-using BlogSystem.DAL.UnitOfWork;
+using BlogSystem.Models;
+using BlogSystem.Abstractions;
 
 namespace BlogSystem.BLL.Services
 {

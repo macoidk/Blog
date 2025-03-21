@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BlogSystem.DAL.Context;
-using BlogSystem.DAL.Entities;
+using BlogSystem.Models;
+using BlogSystem.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogSystem.DAL.Repositories
@@ -12,26 +12,20 @@ namespace BlogSystem.DAL.Repositories
         public CommentRepository(BlogDbContext context) : base(context)
         {
         }
-        
+
         public async Task<IEnumerable<Comment>> GetByArticleIdAsync(int articleId)
         {
-            return await Context.Comments
-                .Where(c => c.ArticleId == articleId)
-                .Include(c => c.User)
-                .ToListAsync();
+            return await FindAsync(c => c.ArticleId == articleId);
         }
-        
+
         public async Task<IEnumerable<Comment>> GetRootCommentsByArticleIdAsync(int articleId)
         {
-            return await Context.Comments
-                .Where(c => c.ArticleId == articleId && c.ParentCommentId == null)
-                .Include(c => c.User)
-                .Include(c => c.ChildComments)
-                    .ThenInclude(c => c.User)
-                .Include(c => c.ChildComments)
-                    .ThenInclude(c => c.ChildComments)
-                        .ThenInclude(c => c.User)
-                .ToListAsync() ?? new List<Comment>();
+            return await FindAsync(c => c.ArticleId == articleId && c.ParentCommentId == null);
+        }
+
+        public async Task<IEnumerable<Comment>> GetByUserIdAsync(int userId)
+        {
+            return await FindAsync(c => c.UserId == userId);
         }
         
         public async Task<Comment> GetWithRepliesAsync(int id)
@@ -46,12 +40,5 @@ namespace BlogSystem.DAL.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
         
-        public async Task<IEnumerable<Comment>> GetByUserIdAsync(int userId)
-        {
-            return await Context.Comments
-                .Where(c => c.UserId == userId)
-                .Include(c => c.Article)
-                .ToListAsync();
-        }
     }
 }

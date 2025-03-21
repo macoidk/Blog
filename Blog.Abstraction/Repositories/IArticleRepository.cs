@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using BlogSystem.DAL.Entities;
+using BlogSystem.Models;
 
-namespace BlogSystem.DAL.Repositories
+namespace BlogSystem.Abstractions
 {
     public interface IArticleRepository : IRepository<Article>
     {
         Task<IEnumerable<Article>> GetByCategoryIdAsync(int categoryId);
         Task<IEnumerable<Article>> GetByUserIdAsync(int userId);
         Task<Article> GetByIdWithDetailsAsync(int id);
-        Task<IEnumerable<Article>> GetAllWithDetailsAsync();
+        
         Task<Article> GetByIdLazyAsync(int id);
+        
+        Task<IEnumerable<Article>> GetAllWithDetailsAsync();
     }
 }

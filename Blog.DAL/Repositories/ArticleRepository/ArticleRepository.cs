@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BlogSystem.DAL.Context;
-using BlogSystem.DAL.Entities;
+using BlogSystem.Models;
+using BlogSystem.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogSystem.DAL.Repositories
@@ -12,19 +12,15 @@ namespace BlogSystem.DAL.Repositories
         public ArticleRepository(BlogDbContext context) : base(context)
         {
         }
-        
+
         public async Task<IEnumerable<Article>> GetByCategoryIdAsync(int categoryId)
         {
-            return await Context.Articles
-                .Where(a => a.CategoryId == categoryId)
-                .ToListAsync();
+            return await FindAsync(a => a.CategoryId == categoryId);
         }
-        
+
         public async Task<IEnumerable<Article>> GetByUserIdAsync(int userId)
         {
-            return await Context.Articles
-                .Where(a => a.UserId == userId)
-                .ToListAsync();
+            return await FindAsync(a => a.UserId == userId);
         }
         
         public async Task<Article> GetByIdWithDetailsAsync(int id)

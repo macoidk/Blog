@@ -1,5 +1,6 @@
 ﻿using BlogSystem.DAL.Context;
-using BlogSystem.DAL.Entities;
+using BlogSystem.Models;
+using BlogSystem.Abstractions;
 
 namespace BlogSystem.DAL.Repositories
 {
