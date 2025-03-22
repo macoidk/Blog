@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using BlogSystem.DAL.Context;
 using BlogSystem.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,18 +10,18 @@ namespace BlogSystem.DAL.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly BlogDbContext Context;
-        protected readonly DbSet<TEntity> DbSet;
+        protected readonly IBlogDbContext Context;
+        protected readonly IQueryable<TEntity> DbSet;
 
-        public Repository(BlogDbContext context)
+        public Repository(IBlogDbContext context, IQueryable<TEntity> dbSet)
         {
             Context = context;
-            DbSet = context.Set<TEntity>();
+            DbSet = dbSet; 
         }
 
         public async Task<TEntity> GetByIdAsync(int id)
         {
-            return await DbSet.FindAsync(id);
+            return await DbSet.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -57,17 +56,18 @@ namespace BlogSystem.DAL.Repositories
 
         public async Task AddAsync(TEntity entity)
         {
-            await DbSet.AddAsync(entity);
+            Context.Add(entity);
+            await Task.CompletedTask;
         }
 
         public void Update(TEntity entity)
         {
-            DbSet.Update(entity);
+            Context.Update(entity);
         }
 
         public void Delete(TEntity entity)
         {
-            DbSet.Remove(entity);
+            Context.Remove(entity);
         }
     }
 }
