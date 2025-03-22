@@ -6,7 +6,7 @@ namespace BlogSystem.DAL.Repositories
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
-        public CategoryRepository(BlogDbContext context) : base(context)
+        public CategoryRepository(IBlogDbContext context, IQueryable<Category> dbSet) : base(context, dbSet)
         {
         }
     }

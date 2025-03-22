@@ -2,14 +2,14 @@
 using BlogSystem.DAL.Context;
 using BlogSystem.Models;
 using BlogSystem.Abstractions;
+using System.Linq;
 
 namespace BlogSystem.DAL.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(BlogDbContext context) : base(context)
-        {
-        }
+        public UserRepository(IBlogDbContext context, IQueryable<User> dbSet) : base(context, dbSet) { }        
+        
 
         public async Task<User> GetByUsernameAsync(string username)
         {

@@ -9,7 +9,7 @@ namespace BlogSystem.DAL.Repositories
 {
     public class CommentRepository : Repository<Comment>, ICommentRepository
     {
-        public CommentRepository(BlogDbContext context) : base(context)
+        public CommentRepository(IBlogDbContext context, IQueryable<Comment> dbSet) : base(context, dbSet)
         {
         }
 

@@ -4,12 +4,13 @@ using BlogSystem.DAL.Context;
 using BlogSystem.Models;
 using BlogSystem.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace BlogSystem.DAL.Repositories
 {
     public class TagRepository : Repository<Tag>, ITagRepository
     {
-        public TagRepository(BlogDbContext context) : base(context)
+        public TagRepository(IBlogDbContext context, IQueryable<Tag> dbSet) : base(context, dbSet)
         {
         }
 
