@@ -4,9 +4,8 @@ using BlogSystem.Models;
 using BlogSystem.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using BlogSystem.BLL.Utils;
-using BlogSystem.Abstractions;
-using BlogSystem.DAL.Context;
-using BlogSystem.DAL.UnitOfWork;
+using BlogSystem.Infrastructure;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +17,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddDbContext<BlogDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
-        .UseLazyLoadingProxies());
+builder.Services.AddBlogSystemDal(builder.Configuration.GetConnectionString("DefaultConnection"));
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
