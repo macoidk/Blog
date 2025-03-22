@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BlogSystem.Infrastructure
 {
-    public static class DependencyRegistration
+    public static class DalDependencyRegistration
     {
         public static IServiceCollection AddBlogSystemDal(this IServiceCollection services, string connectionString)
         {
