@@ -1,9 +1,6 @@
-using BlogSystem.BLL.Interfaces;
-using BlogSystem.BLL.Services;
 using BlogSystem.Models;
 using BlogSystem.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using BlogSystem.BLL.Utils;
 using BlogSystem.Infrastructure;
 
 
@@ -18,13 +15,7 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddBlogSystemDal(builder.Configuration.GetConnectionString("DefaultConnection"));
-
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IArticleService, ArticleService>();
-builder.Services.AddScoped<ITagService, TagService>();
-builder.Services.AddScoped<ICommentService, CommentService>();
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddBlogSystemBLL();
 
 builder.Services.AddControllersWithViews();
 
