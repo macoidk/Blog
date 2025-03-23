@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using BlogSystem.Abstractions;
 using BlogSystem.BLL.DTO;
 using BlogSystem.BLL.Exceptions;
-using BlogSystem.BLL.Extensions;
 using BlogSystem.BLL.Interfaces;
 using BlogSystem.Models;
 using NSubstitute;
@@ -28,13 +27,14 @@ namespace BlogSystem.Tests
             var categoriesMock = Substitute.For<ICategoryRepository>();
             _unitOfWork.Categories.Returns(categoriesMock);
             
-            _categoryService = new CategoryService(_unitOfWork); 
-            
             _fixture = new Fixture();
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
                 .ForEach(b => _fixture.Behaviors.Remove(b));
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             
+            Rebind<IUnitOfWork>(_unitOfWork);
+            
+            _categoryService = Kernel.Get<ICategoryService>();
             
         }
 

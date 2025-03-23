@@ -25,14 +25,18 @@ namespace BlogSystem.Tests
         {
             base.SetUp();
             _unitOfWork = Substitute.For<IUnitOfWork>();
-            _tagService = Substitute.For<ITagService>();
-            _tagService = Substitute.For<ITagService>();
             
             _fixture = new Fixture();
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
                 .ForEach(b => _fixture.Behaviors.Remove(b));
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            
+            Rebind<IUnitOfWork>(_unitOfWork);
+            
+            _tagService = Kernel.Get<ITagService>();
+            
         }
+        
 
         [Test]
         public async Task CreateAsync_NewTagName_CreatesTag()
@@ -41,19 +45,7 @@ namespace BlogSystem.Tests
             _unitOfWork.Tags.GetByNameAsync(tagName).Returns(Task.FromResult<Tag>(null));
             _unitOfWork.Tags.AddAsync(Arg.Any<Tag>()).Returns(Task.CompletedTask);
             _unitOfWork.SaveChangesAsync().Returns(Task.FromResult(1));
-    
-            _tagService.CreateAsync(tagName).Returns(async Task =>
-            {
-                var existingTag = await _unitOfWork.Tags.GetByNameAsync(tagName);
-                if (existingTag != null)
-                    return new TagDto { Name = existingTag.Name };
-                
-                var newTag = new Tag { Name = tagName };
-                await _unitOfWork.Tags.AddAsync(newTag);
-                await _unitOfWork.SaveChangesAsync();
-                return new TagDto { Name = newTag.Name };
-            });
-
+            
             var result = await _tagService.CreateAsync(tagName);
 
             Assert.That(result, Is.Not.Null);
@@ -67,18 +59,6 @@ namespace BlogSystem.Tests
         {
             var tag = _fixture.Build<Tag>().With(t => t.Name, "testtag").Create();
             _unitOfWork.Tags.GetByNameAsync("testtag").Returns(Task.FromResult(tag));
-
-            _tagService.CreateAsync("testtag").Returns(async Task =>
-            {
-                var existingTag = await _unitOfWork.Tags.GetByNameAsync("testtag");
-                if (existingTag != null)
-                    return new TagDto { Name = existingTag.Name };
-                
-                var newTag = new Tag { Name = "testtag" };
-                await _unitOfWork.Tags.AddAsync(newTag);
-                await _unitOfWork.SaveChangesAsync();
-                return new TagDto { Name = newTag.Name };
-            });
             
             var result = await _tagService.CreateAsync("testtag");
 
