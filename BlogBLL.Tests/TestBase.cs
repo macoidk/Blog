@@ -19,5 +19,16 @@ namespace BlogSystem.Tests
         {
             Kernel.Dispose();
         }
+        
+        protected void Rebind<TInterface, TImplementation>() where TImplementation : TInterface
+        {
+            Kernel.Rebind<TInterface>().To<TImplementation>();
+        }
+        
+        protected void Rebind<TInterface>(TInterface instance)
+        {
+            Kernel.Rebind<TInterface>().ToConstant(instance);
+        }
+        
     }
 }

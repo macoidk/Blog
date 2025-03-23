@@ -3,14 +3,12 @@ using System.Threading.Tasks;
 using BlogSystem.Abstractions;
 using BlogSystem.BLL.DTO;
 using BlogSystem.BLL.Exceptions;
-using BlogSystem.BLL.Extensions;
 using BlogSystem.BLL.Interfaces;
 using BlogSystem.BLL.Utils;
 using BlogSystem.Models;
 using NSubstitute;
 using NUnit.Framework;
 using AutoFixture;
-using BlogSystem.BLL.Services;
 using Ninject;
 
 namespace BlogSystem.Tests
@@ -29,12 +27,17 @@ namespace BlogSystem.Tests
             base.SetUp();
             _unitOfWork = Substitute.For<IUnitOfWork>();
             _passwordHasher = Substitute.For<IPasswordHasher>();
-            _userService = new UserService(_unitOfWork, _passwordHasher);
             
             _fixture = new Fixture();
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
                 .ForEach(b => _fixture.Behaviors.Remove(b));
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            
+            Rebind<IUnitOfWork>(_unitOfWork);
+            Rebind<IPasswordHasher>(_passwordHasher);
+            
+            _userService = Kernel.Get<IUserService>();
+            
         }
 
         [Test]

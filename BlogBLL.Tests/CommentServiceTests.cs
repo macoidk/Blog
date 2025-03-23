@@ -28,12 +28,15 @@ namespace BlogSystem.Tests
         {
             base.SetUp();
             _unitOfWork = Substitute.For<IUnitOfWork>();
-            _commentService = new CommentService(_unitOfWork);
             _fixture = new Fixture();
 
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
                 .ForEach(b => _fixture.Behaviors.Remove(b));
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            
+            Rebind<IUnitOfWork>(_unitOfWork);
+            _commentService = Kernel.Get<ICommentService>();
+            
         }
         
 

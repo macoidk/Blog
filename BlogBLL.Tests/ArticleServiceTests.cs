@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 using BlogSystem.Abstractions;
 using BlogSystem.BLL.DTO;
 using BlogSystem.BLL.Exceptions;
-using BlogSystem.BLL.Extensions;
 using BlogSystem.BLL.Interfaces;
 using BlogSystem.Models;
 using NSubstitute;
 using NUnit.Framework;
 using AutoFixture;
-using BlogSystem.BLL.Services;
 using Ninject;
 
 namespace BlogSystem.Tests
@@ -30,12 +28,17 @@ namespace BlogSystem.Tests
             base.SetUp();
             _unitOfWork = Substitute.For<IUnitOfWork>();
             _tagService = Substitute.For<ITagService>();
-            _articleService = new ArticleService(_unitOfWork, _tagService);
             
             _fixture = new Fixture();
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
                 .ForEach(b => _fixture.Behaviors.Remove(b));
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            
+            Rebind<IUnitOfWork>(_unitOfWork);
+            Rebind<ITagService>(_tagService);
+            
+            _articleService = Kernel.Get<IArticleService>();
+            
         }
 
         [Test]
@@ -180,30 +183,30 @@ namespace BlogSystem.Tests
         [Test]
         public async Task AddTagAsync_WithTagId_AddsTagToArticle()
         {
+            // Arrange
             var articleId = 1;
             var tagId = 2;
-    
+
             var article = new Article 
             { 
                 Id = articleId, 
                 Title = "Test Article", 
                 ArticleTags = new List<ArticleTag>() 
             };
-    
-            var unitOfWork = Substitute.For<IUnitOfWork>();
-            var articleRepository = Substitute.For<IArticleRepository>();
-            var tagService = Substitute.For<ITagService>();
-    
-            unitOfWork.Articles.Returns(articleRepository);
-            articleRepository.GetByIdWithDetailsAsync(articleId).Returns(Task.FromResult(article));
-    
-            var articleService = new ArticleService(unitOfWork, tagService);
-    
+
+            // Налаштування мока _unitOfWork, який уже прив’язаний до DI у SetUp
+            _unitOfWork.Articles.GetByIdWithDetailsAsync(articleId).Returns(Task.FromResult(article));
+
+            // Отримання сервісу через DI
+            var articleService = Kernel.Get<IArticleService>();
+
+            // Act
             await articleService.AddTagAsync(articleId, tagId);
-    
+
+            // Assert
             Assert.That(article.ArticleTags.Any(at => at.TagId == tagId), "Tag should be added to article.");
-            articleRepository.Received(1).Update(article); // Перевіряємо, що оновлення було викликано
-            await unitOfWork.Received(1).SaveChangesAsync(); // Перевіряємо збереження змін
+            _unitOfWork.Articles.Received(1).Update(article); // Перевіряємо, що оновлення було викликано
+            await _unitOfWork.Received(1).SaveChangesAsync(); // Перевіряємо збереження змін
         }
 
         [Test]
