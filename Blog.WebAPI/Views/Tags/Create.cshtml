@@ -1,0 +1,7 @@
+@model BlogSystem.BLL.DTO.TagDto
+<h2>Create Tag</h2>
+<form asp-action="CreateView" asp-controller="Tags" method="post">
+    <label>Name:</label><input name="name" /><br />
+    <button type="submit">Create</button>
+</form>
+<a href="/Tags/List">Back to List</a>

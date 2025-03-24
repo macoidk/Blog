@@ -13,13 +13,16 @@ namespace Blog.WebAPI.Controllers
     public class CommentsController : Controller
     {
         private readonly ICommentService _commentService;
+        private readonly IUserService _userService;
+        private readonly IArticleService _articleService;
 
-        public CommentsController(ICommentService commentService)
+        public CommentsController(ICommentService commentService, IUserService userService, IArticleService articleService)
         {
             _commentService = commentService;
+            _userService = userService;
+            _articleService = articleService;
         }
 
-        // API методи
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CommentDto>>> GetAll()
         {
@@ -68,13 +71,19 @@ namespace Blog.WebAPI.Controllers
             return NoContent();
         }
 
-        // Web методи
         [HttpPost("/Comments/Create")]
         [Authorize]
-        public async Task<IActionResult> CreateView(CommentDto commentDto)
+        public async Task<IActionResult> CreateView([FromForm] CommentDto commentDto)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             commentDto.UserId = userId;
+            
+            var user = await _userService.GetByIdAsync(userId);
+            commentDto.AuthorName = user.Username;
+            
+            var article = await _articleService.GetByIdAsync(commentDto.ArticleId);
+            commentDto.ArticleTitle = article.Title;
+            
             await _commentService.CreateAsync(commentDto);
             return RedirectToAction("Details", "Articles", new { id = commentDto.ArticleId });
         }
@@ -92,7 +101,7 @@ namespace Blog.WebAPI.Controllers
 
         [HttpPost("/Comments/Edit/{id}")]
         [Authorize]
-        public async Task<IActionResult> EditView(int id, CommentDto commentDto)
+        public async Task<IActionResult> EditView(int id, [FromForm] CommentDto commentDto)
         {
             if (id != commentDto.Id) return BadRequest();
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);

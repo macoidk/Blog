@@ -1,0 +1,47 @@
+@model IEnumerable<BlogSystem.BLL.DTO.ArticleDto>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article List</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<h2>Article List</h2>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var article in Model)
+    {
+        <tr>
+            <td>@article.Title</td>
+            <td>@article.AuthorName</td>
+            <td>@article.CategoryName</td>
+            <td>
+                <a href="/Articles/Details/@article.Id">Details</a>
+                @if (User.Identity.IsAuthenticated && User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value == article.UserId.ToString())
+                {
+                    <span> | </span><a href="/Articles/Edit/@article.Id">Edit</a>
+                    <span> | </span><a href="/Articles/Delete/@article.Id">Delete</a>
+                }
+            </td>
+        </tr>
+    }
+</table>
+@if (User.Identity.IsAuthenticated)
+{
+    <p><a href="/Articles/Create">Create New Article</a></p>
+}
+<p><a href="/Home/Index">Back to Home</a></p>
+</body>
+</html>

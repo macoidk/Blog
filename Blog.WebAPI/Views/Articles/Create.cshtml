@@ -1,0 +1,15 @@
+@model BlogSystem.BLL.DTO.ArticleDto
+<h2>Create Article</h2>
+<form asp-action="CreateView" asp-controller="Articles" method="post" enctype="multipart/form-data">
+    <label>Title:</label><input name="Title" /><br />
+    <label>Content:</label><textarea name="Content"></textarea><br />
+    <label>Category:</label>
+    <select name="CategoryId">
+        @foreach (var category in ViewBag.Categories)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select><br />
+    <button type="submit">Create</button>
+</form>
+<a href="/Articles/List">Back to List</a>

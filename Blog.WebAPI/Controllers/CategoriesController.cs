@@ -76,7 +76,7 @@ namespace Blog.WebAPI.Controllers
 
         [HttpPost("/Categories/Create")]
         [Authorize]
-        public async Task<IActionResult> CreateView(CategoryDto categoryDto)
+        public async Task<IActionResult> CreateView([FromForm] CategoryDto categoryDto)
         {
             await _categoryService.CreateAsync(categoryDto);
             return RedirectToAction("List");

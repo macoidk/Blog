@@ -29,7 +29,6 @@ namespace Blog.WebAPI.Controllers
             _configuration = configuration;
         }
 
-        // API методи
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()
         {
@@ -64,6 +63,10 @@ namespace Blog.WebAPI.Controllers
                 return BadRequest(ModelState);
             }
             var user = await _userService.AuthenticateAsync(model.Username, model.Password);
+            if (user == null)
+            {
+                return Unauthorized("Invalid username or password.");
+            }
             var token = GenerateJwtToken(user);
             HttpContext.Response.Cookies.Append("jwt", token, new CookieOptions
             {
@@ -99,7 +102,6 @@ namespace Blog.WebAPI.Controllers
             return NoContent();
         }
 
-        // Web методи
         [HttpGet("/Users/Register")]
         public IActionResult RegisterView()
         {
@@ -143,6 +145,11 @@ namespace Blog.WebAPI.Controllers
             try
             {
                 var user = await _userService.AuthenticateAsync(model.Username, model.Password);
+                if (user == null)
+                {
+                    ViewBag.Error = "Invalid username or password.";
+                    return View("Login");
+                }
                 var token = GenerateJwtToken(user);
                 HttpContext.Response.Cookies.Append("jwt", token, new CookieOptions
                 {

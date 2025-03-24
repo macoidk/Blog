@@ -1,0 +1,48 @@
+@using System.Security.Claims
+@model BlogSystem.BLL.DTO.ArticleDto
+<h2>@Model.Title</h2>
+<p>@Model.Content</p>
+<p>Author: @Model.AuthorName | Category: @Model.CategoryName</p>
+
+<h3>Comments</h3>
+@if (ViewBag.Comments != null && ViewBag.Comments as IEnumerable<BlogSystem.BLL.DTO.CommentDto> != null)
+{
+    var comments = ViewBag.Comments as IEnumerable<BlogSystem.BLL.DTO.CommentDto>;
+    @if (comments.Any())
+    {
+        <ul>
+            @foreach (var comment in comments)
+            {
+                <li>
+                    <p>@comment.Content</p>
+                    <p>Автор: @comment.AuthorName</p>
+                    @if (User.Identity.IsAuthenticated && User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value == comment.UserId.ToString())
+                    {
+                        <a href="/Comments/Edit/@comment.Id">Edit</a>
+                        <a href="/Comments/Delete/@comment.Id">Delete</a>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No comments yet.</p>
+    }
+}
+
+else
+{
+    <p>No comments yet.</p>
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h4>Add Comment</h4>
+    <form action="/Comments/Create" method="post">
+        <input type="hidden" name="ArticleId" value="@Model.Id" />
+        <textarea name="Content"></textarea><br />
+        <button type="submit">Add Comment</button>
+    </form>
+}
+<a href="/Articles/List">Back to List</a>

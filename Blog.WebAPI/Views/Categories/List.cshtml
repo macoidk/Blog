@@ -1,0 +1,44 @@
+@model IEnumerable<BlogSystem.BLL.DTO.CategoryDto>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category List</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<h2>Category List</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var category in Model)
+    {
+        <tr>
+            <td>@category.Name</td>
+            <td>@category.Description</td>
+            <td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="/Categories/Edit/@category.Id">Edit</a>
+                    <span> | </span><a href="/Categories/Delete/@category.Id">Delete</a>
+                }
+            </td>
+        </tr>
+    }
+</table>
+@if (User.Identity.IsAuthenticated)
+{
+    <p><a href="/Categories/Create">Create New Category</a></p>
+}
+<p><a href="/Home/Index">Back to Home</a></p>
+</body>
+</html>

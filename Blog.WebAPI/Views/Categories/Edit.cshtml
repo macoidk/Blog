@@ -1,0 +1,9 @@
+@model BlogSystem.BLL.DTO.CategoryDto
+<h2>Edit Category</h2>
+<form asp-action="EditView" asp-controller="Categories" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <label>Name:</label><input name="Name" value="@Model.Name" /><br />
+    <label>Description:</label><textarea name="Description">@Model.Description</textarea><br />
+    <button type="submit">Save</button>
+</form>
+<a href="/Categories/List">Back to List</a>

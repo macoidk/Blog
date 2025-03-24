@@ -14,11 +14,15 @@ namespace Blog.WebAPI.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly ICategoryService _categoryService;
+        private readonly IUserService _userService;
+        private readonly ICommentService _commentService;
 
-        public ArticlesController(IArticleService articleService, ICategoryService categoryService)
+        public ArticlesController(IArticleService articleService, ICategoryService categoryService, IUserService userService, ICommentService commentService)
         {
             _articleService = articleService;
             _categoryService = categoryService;
+            _userService = userService;
+            _commentService = commentService;
         }
 
         // API методи
@@ -39,10 +43,16 @@ namespace Blog.WebAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<ArticleDto>> Create(ArticleDto articleDto)
+        public async Task<ActionResult<ArticleDto>> Create([FromBody] ArticleDto articleDto)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var user = await _userService.GetByIdAsync(userId);
             articleDto.UserId = userId;
+            articleDto.AuthorName = user.Username;
+
+            var category = await _categoryService.GetByIdAsync(articleDto.CategoryId);
+            articleDto.CategoryName = category.Name;
+
             var createdArticle = await _articleService.CreateAsync(articleDto);
             return CreatedAtAction(nameof(GetById), new { id = createdArticle.Id }, createdArticle);
         }
@@ -55,6 +65,13 @@ namespace Blog.WebAPI.Controllers
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var existingArticle = await _articleService.GetByIdAsync(id);
             if (existingArticle.UserId != userId) return Forbid();
+
+            var user = await _userService.GetByIdAsync(userId);
+            articleDto.AuthorName = user.Username;
+            var category = await _categoryService.GetByIdAsync(articleDto.CategoryId);
+            if (category == null) return BadRequest("Invalid CategoryId");
+            articleDto.CategoryName = category.Name;
+
             await _articleService.UpdateAsync(articleDto);
             return NoContent();
         }
@@ -83,6 +100,10 @@ namespace Blog.WebAPI.Controllers
         {
             var article = await _articleService.GetByIdAsync(id);
             if (article == null) return NotFound();
+            
+            var comments = await _commentService.GetByArticleIdAsync(id);
+            ViewBag.Comments = comments;
+            
             return View(article);
         }
 
@@ -96,10 +117,23 @@ namespace Blog.WebAPI.Controllers
 
         [HttpPost("/Articles/Create")]
         [Authorize]
-        public async Task<IActionResult> CreateView(ArticleDto articleDto)
+        public async Task<IActionResult> CreateView([FromForm] ArticleDto articleDto)
         {
+            
+            
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var user = await _userService.GetByIdAsync(userId);
             articleDto.UserId = userId;
+            articleDto.AuthorName = user.Username; 
+
+            var category = await _categoryService.GetByIdAsync(articleDto.CategoryId);
+            if (category == null)
+            {
+                ViewBag.Categories = await _categoryService.GetAllAsync();
+                return View("Create", articleDto);
+            }
+            articleDto.CategoryName = category.Name;
+            
             await _articleService.CreateAsync(articleDto);
             return RedirectToAction("List");
         }
@@ -118,12 +152,19 @@ namespace Blog.WebAPI.Controllers
 
         [HttpPost("/Articles/Edit/{id}")]
         [Authorize]
-        public async Task<IActionResult> EditView(int id, ArticleDto articleDto)
+        public async Task<IActionResult> EditView(int id, [FromForm] ArticleDto articleDto)
         {
             if (id != articleDto.Id) return BadRequest();
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var existingArticle = await _articleService.GetByIdAsync(id);
             if (existingArticle.UserId != userId) return Forbid();
+
+            var user = await _userService.GetByIdAsync(userId);
+            articleDto.AuthorName = user.Username;
+            var category = await _categoryService.GetByIdAsync(articleDto.CategoryId);
+            if (category == null) return BadRequest("Invalid CategoryId");
+            articleDto.CategoryName = category.Name; 
+
             await _articleService.UpdateAsync(articleDto);
             return RedirectToAction("List");
         }

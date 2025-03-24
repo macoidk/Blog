@@ -1,0 +1,16 @@
+@model BlogSystem.BLL.DTO.ArticleDto
+<h2>Edit Article</h2>
+<form asp-action="EditView" asp-controller="Articles" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <label>Title:</label><input name="Title" value="@Model.Title" /><br />
+    <label>Content:</label><textarea name="Content">@Model.Content</textarea><br />
+    <label>Category:</label>
+    <select name="CategoryId">
+        @foreach (var category in ViewBag.Categories)
+        {
+            <option value="@category.Id" @(Model.CategoryId == category.Id ? "selected" : "")>@category.Name</option>
+        }
+    </select><br />
+    <button type="submit">Save</button>
+</form>
+<a href="/Articles/List">Back to List</a>

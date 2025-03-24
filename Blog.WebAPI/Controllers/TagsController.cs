@@ -76,7 +76,7 @@ namespace Blog.WebAPI.Controllers
 
         [HttpPost("/Tags/Create")]
         [Authorize]
-        public async Task<IActionResult> CreateView(string name)
+        public async Task<IActionResult> CreateView([FromForm] string name)
         {
             await _tagService.CreateAsync(name);
             return RedirectToAction("List");
