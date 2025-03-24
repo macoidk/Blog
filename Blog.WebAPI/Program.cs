@@ -1,41 +1,37 @@
+using BlogSystem.Infrastructure;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Ninject;
+using Ninject.Web.Common.WebHost;
+using Ninject.Web.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Налаштування Ninject
+var kernel = new StandardKernel();
+kernel.Load(new ServiceModule());
+
+// Реєстрація DAL з підключенням до SQLite
+builder.Services.AddBlogSystemDal(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+// Додавання сервісів до контейнера
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Налаштування middleware
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
