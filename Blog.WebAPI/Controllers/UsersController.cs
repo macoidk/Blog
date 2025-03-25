@@ -37,6 +37,7 @@ namespace Blog.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Route("api/users/{id}")]
         public async Task<ActionResult<UserDto>> GetById(int id)
         {
             var user = await _userService.GetByIdAsync(id);
@@ -45,7 +46,8 @@ namespace Blog.WebAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register([FromForm] RegisterModel model)
+        [Route("api/users/register")]
+        public async Task<ActionResult<UserDto>> Register([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -56,7 +58,8 @@ namespace Blog.WebAPI.Controllers
         }
 
         [HttpPost("authenticate")]
-        public async Task<ActionResult<UserDto>> Authenticate([FromForm] LoginModel model)
+        [Route("api/users/authenticate")]
+        public async Task<ActionResult<UserDto>> Authenticate([FromBody] LoginModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -79,6 +82,7 @@ namespace Blog.WebAPI.Controllers
         }
 
         [HttpPost("logout")]
+        [Route("api/users/logout")]
         public IActionResult Logout()
         {
             HttpContext.Response.Cookies.Delete("jwt");
