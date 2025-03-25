@@ -10,20 +10,10 @@
     var comments = ViewBag.Comments as IEnumerable<BlogSystem.BLL.DTO.CommentDto>;
     @if (comments.Any())
     {
-        <ul>
-            @foreach (var comment in comments)
-            {
-                <li>
-                    <p>@comment.Content</p>
-                    <p>Автор: @comment.AuthorName</p>
-                    @if (User.Identity.IsAuthenticated && User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value == comment.UserId.ToString())
-                    {
-                        <a href="/Comments/Edit/@comment.Id">Edit</a>
-                        <a href="/Comments/Delete/@comment.Id">Delete</a>
-                    }
-                </li>
-            }
-        </ul>
+        foreach (var comment in comments)
+        {
+            @await Html.PartialAsync("_CommentPartial", comment)
+        }
     }
     else
     {
@@ -46,3 +36,10 @@ else
     </form>
 }
 <a href="/Articles/List">Back to List</a>
+
+<script>
+    function showReplyForm(commentId) {
+        var form = document.getElementById('replyForm_' + commentId);
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
