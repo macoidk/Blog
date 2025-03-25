@@ -9,16 +9,21 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Blog.BLL\Blog.BLL.csproj" />
-      <ProjectReference Include="..\Blog.DAL\Blog.DAL.csproj" />
+      <ProjectReference Include="..\Blog.Infrastructure\Blog.Infrastructure.csproj" />
       <ProjectReference Include="..\Blog.Models\Blog.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.3">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Ninject" Version="4.0.0-beta.1" />
+      <PackageReference Include="Ninject.MVC5" Version="3.3.0" />
+      <PackageReference Include="Ninject.Web.Common" Version="3.3.2" />
+      <PackageReference Include="Ninject.Web.Common.WebHost" Version="3.3.2" />
     </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ namespace BlogSystem.DAL.Repositories
 {
     public class ArticleRepository : Repository<Article>, IArticleRepository
     {
-        public ArticleRepository(BlogDbContext context) : base(context)
+        public ArticleRepository(IBlogDbContext context, IQueryable<Article> dbSet) : base(context, dbSet)
         {
         }
 
