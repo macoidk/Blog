@@ -23,13 +23,16 @@ namespace Blog.WebAPI.Controllers
             _articleService = articleService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CommentDto>>> GetAll()
+        [HttpGet("article/{articleId}")]
+        public async Task<ActionResult<IEnumerable<CommentDto>>> GetRootCommentsByArticleId(int articleId)
         {
-            var comments = await _commentService.GetByArticleIdAsync(0);
+            var comments = await _commentService.GetRootCommentsByArticleIdAsync(articleId);
+            if (comments == null || !comments.Any())
+                return NotFound("Коментарі для цієї статті відсутні.");
+    
             return Ok(comments);
         }
-
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<CommentDto>> GetById(int id)
         {

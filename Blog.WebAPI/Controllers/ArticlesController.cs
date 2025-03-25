@@ -25,7 +25,6 @@ namespace Blog.WebAPI.Controllers
             _commentService = commentService;
         }
 
-        // API методи
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArticleDto>>> GetAll()
         {
@@ -101,8 +100,9 @@ namespace Blog.WebAPI.Controllers
             var article = await _articleService.GetByIdAsync(id);
             if (article == null) return NotFound();
             
-            var comments = await _commentService.GetByArticleIdAsync(id);
+            var comments = await _commentService.GetRootCommentsByArticleIdAsync(id);
             ViewBag.Comments = comments;
+            ViewBag.ArticleId = id;
             
             return View(article);
         }
@@ -119,7 +119,6 @@ namespace Blog.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> CreateView([FromForm] ArticleDto articleDto)
         {
-            
             
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var user = await _userService.GetByIdAsync(userId);

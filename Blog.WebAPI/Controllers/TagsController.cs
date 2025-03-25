@@ -18,7 +18,6 @@ namespace Blog.WebAPI.Controllers
             _tagService = tagService;
         }
 
-        // API методи
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TagDto>>> GetAll()
         {
@@ -59,7 +58,6 @@ namespace Blog.WebAPI.Controllers
             return NoContent();
         }
 
-        // Web методи
         [HttpGet("/Tags/List")]
         public async Task<IActionResult> List()
         {

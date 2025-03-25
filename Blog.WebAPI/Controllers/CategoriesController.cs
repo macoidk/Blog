@@ -18,7 +18,6 @@ namespace Blog.WebAPI.Controllers
             _categoryService = categoryService;
         }
 
-        // API методи
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
         {
@@ -59,7 +58,6 @@ namespace Blog.WebAPI.Controllers
             return NoContent();
         }
 
-        // Web методи
         [HttpGet("/Categories/List")]
         public async Task<IActionResult> List()
         {
