@@ -11,10 +11,10 @@ namespace BlogSystem.BLL.DTO
         public DateTime? UpdateDate { get; set; }
         
         public int UserId { get; set; }
-        public string AuthorName { get; set; }
+        public string? AuthorName { get; set; }
         
         public int ArticleId { get; set; }
-        public string ArticleTitle { get; set; }
+        public string? ArticleTitle { get; set; }
         
         public int? ParentCommentId { get; set; }
         public List<CommentDto> ChildComments { get; set; } = new List<CommentDto>();

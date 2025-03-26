@@ -12,10 +12,10 @@ namespace BlogSystem.BLL.DTO
         public DateTime? UpdateDate { get; set; }
         
         public int UserId { get; set; }
-        public string AuthorName { get; set; }
+        public string? AuthorName { get; set; }
         
         public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
+        public string? CategoryName { get; set; }
         
         public List<TagDto> Tags { get; set; } = new List<TagDto>();
         public int CommentCount { get; set; }

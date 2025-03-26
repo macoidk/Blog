@@ -10,15 +10,11 @@ namespace BlogSystem.Infrastructure
     {
         public static IServiceCollection AddBlogSystemDal(this IServiceCollection services, string connectionString)
         {
-            services.AddScoped<IBlogDbContext>(provider =>
-            {
-                var options = new DbContextOptionsBuilder<BlogDbContext>()
-                    .UseSqlite(connectionString)
-                    .UseLazyLoadingProxies()
-                    .Options;
-                return new BlogDbContext(options);
-            });
+            services.AddDbContext<BlogDbContext>(options =>
+                options.UseSqlite(connectionString)
+                    .UseLazyLoadingProxies());
 
+            services.AddScoped<IBlogDbContext>(provider => provider.GetRequiredService<BlogDbContext>());
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

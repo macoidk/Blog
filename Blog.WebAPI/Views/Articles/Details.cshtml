@@ -1,0 +1,45 @@
+@using System.Security.Claims
+@model BlogSystem.BLL.DTO.ArticleDto
+<h2>@Model.Title</h2>
+<p>@Model.Content</p>
+<p>Author: @Model.AuthorName | Category: @Model.CategoryName</p>
+
+<h3>Comments</h3>
+@if (ViewBag.Comments != null && ViewBag.Comments as IEnumerable<BlogSystem.BLL.DTO.CommentDto> != null)
+{
+    var comments = ViewBag.Comments as IEnumerable<BlogSystem.BLL.DTO.CommentDto>;
+    @if (comments.Any())
+    {
+        foreach (var comment in comments)
+        {
+            @await Html.PartialAsync("_CommentPartial", comment)
+        }
+    }
+    else
+    {
+        <p>No comments yet.</p>
+    }
+}
+
+else
+{
+    <p>No comments yet.</p>
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h4>Add Comment</h4>
+    <form action="/Comments/Create" method="post">
+        <input type="hidden" name="ArticleId" value="@Model.Id" />
+        <textarea name="Content"></textarea><br />
+        <button type="submit">Add Comment</button>
+    </form>
+}
+<a href="/Articles/List">Back to List</a>
+
+<script>
+    function showReplyForm(commentId) {
+        var form = document.getElementById('replyForm_' + commentId);
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+</script>

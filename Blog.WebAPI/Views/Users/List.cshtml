@@ -1,0 +1,15 @@
+@model IEnumerable<BlogSystem.BLL.DTO.UserDto>
+<h2>User List</h2>
+<table border="1">
+    <tr><th>ID</th><th>Username</th><th>Email</th><th>Role</th></tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Id</td>
+            <td>@user.Username</td>
+            <td>@user.Email</td>
+            <td>@user.Role</td>
+        </tr>
+    }
+</table>
+<a href="/Home/Index">Back to Home</a>

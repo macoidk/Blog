@@ -1,0 +1,10 @@
+@model BlogSystem.BLL.DTO.UserDto
+<h2>Register</h2>
+<form asp-action="RegisterView" asp-controller="Users" method="post">
+    <label>Username:</label><input name="username" /><br />
+    <label>Email:</label><input name="email" type="email" /><br />
+    <label>Password:</label><input name="password" type="password" /><br />
+    <button type="submit">Register</button>
+    @if (ViewBag.Error != null) { <p style="color:red">@ViewBag.Error</p> }
+</form>
+<a href="/Users/Login">Already have an account? Login</a>

@@ -1,0 +1,9 @@
+@model BlogSystem.BLL.DTO.CommentDto
+<h2>Reply to Comment</h2>
+<form asp-action="CreateView" asp-controller="Comments" method="post">
+    <input type="hidden" name="ArticleId" value="@Model.ArticleId" />
+    <input type="hidden" name="ParentCommentId" value="@Model.ParentCommentId" />
+    <label>Content:</label><textarea name="Content"></textarea><br />
+    <button type="submit">Reply</button>
+</form>
+<a href="/Articles/Details/@Model.ArticleId">Back to Article</a>

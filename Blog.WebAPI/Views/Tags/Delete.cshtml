@@ -1,0 +1,8 @@
+@model BlogSystem.BLL.DTO.TagDto
+<h2>Delete Tag</h2>
+<p>Are you sure you want to delete "@Model.Name"?</p>
+<form asp-action="DeleteConfirmed" asp-controller="Tags" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit">Delete</button>
+</form>
+<a href="/Tags/List">Back to List</a>

@@ -1,0 +1,8 @@
+@model BlogSystem.BLL.DTO.TagDto
+<h2>Edit Tag</h2>
+<form asp-action="EditView" asp-controller="Tags" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <label>Name:</label><input name="Name" value="@Model.Name" /><br />
+    <button type="submit">Save</button>
+</form>
+<a href="/Tags/List">Back to List</a>

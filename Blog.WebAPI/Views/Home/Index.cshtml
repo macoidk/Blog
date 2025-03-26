@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog WebAPI - Home</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .nav-section { margin-bottom: 20px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 5px 0; }
+        a { text-decoration: none; color: #007bff; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<h1>Welcome to Blog WebAPI!</h1>
+<p>This is your central hub for managing the blog system.</p>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>Welcome, @User.Identity.Name!</p>
+}
+
+<div class="nav-section">
+    <h2>Articles</h2>
+    <ul>
+        <li><a href="/Articles/List">View All Articles</a></li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li><a href="/Articles/Create">Create New Article</a></li>
+        }
+    </ul>
+</div>
+
+<div class="nav-section">
+    <h2>Categories</h2>
+    <ul>
+        <li><a href="/Categories/List">View All Categories</a></li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li><a href="/Categories/Create">Create New Category</a></li>
+        }
+    </ul>
+</div>
+
+<div class="nav-section">
+    <h2>Tags</h2>
+    <ul>
+        <li><a href="/Tags/List">View All Tags</a></li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li><a href="/Tags/Create">Create New Tag</a></li>
+        }
+    </ul>
+</div>
+
+<div class="nav-section">
+    <h2>Users</h2>
+    <ul>
+        <li><a href="/Users/List">View All Users</a></li>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <li><a href="/Users/Register">Register</a></li>
+            <li><a href="/Users/Login">Login</a></li>
+        }
+        else
+        {
+            <li><a href="/Users/Logout">Logout</a></li>
+        }
+    </ul>
+</div>
+
+<div class="nav-section">
+    <h2>API</h2>
+    <ul>
+        <li><a href="/api/articles">View Articles (API)</a></li>
+        <li><a href="/swagger">Explore API with Swagger</a></li>
+    </ul>
+</div>
+</body>
+</html>
