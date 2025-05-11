@@ -1,7 +1,0 @@
-<h2>Створити тег</h2>
-<form asp-action="Create" method="post">
-    <label>Назва:</label><input name="name" /><br />
-    <button type="submit">Створити</button>
-    @if (ViewBag.Error != null) { <p style="color:red">@ViewBag.Error</p> }
-</form>
-<a href="/Tags/Index">Назад до списку</a>

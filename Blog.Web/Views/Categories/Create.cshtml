@@ -1,8 +1,0 @@
-<h2>Створити рубрику</h2>
-<form asp-action="Create" method="post">
-    <label>Назва:</label><input name="Name" /><br />
-    <label>Опис:</label><textarea name="Description"></textarea><br />
-    <button type="submit">Створити</button>
-    @if (ViewBag.Error != null) { <p style="color:red">@ViewBag.Error</p> }
-</form>
-<a href="/Categories/Index">Назад до спиcку</a>
